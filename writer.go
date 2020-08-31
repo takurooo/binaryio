@@ -39,6 +39,16 @@ func (bw *Writer) Err() error {
 	return bw.err
 }
 
+// GetOffset ...
+func (bw *Writer) GetOffset() int64 {
+	return bw.offset
+}
+
+// SetOffset ...
+func (bw *Writer) SetOffset(offset int64) {
+	bw.offset = offset
+}
+
 // WriteRaw ...
 func (bw *Writer) WriteRaw(p []byte) (n int) {
 	if bw.err != nil {
