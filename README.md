@@ -1,7 +1,11 @@
 # binaryio
-Binary read/write library for Go
+A simple binary read/write library for Go.
 
-# Usage
+
+# godoc
+https://godoc.org/github.com/takurooo/binaryio
+
+# Examples
 
 ```go
 package main
@@ -51,5 +55,3 @@ func main() {
 
 	fr.Close()
 }
-```
-
