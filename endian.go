@@ -3,6 +3,6 @@ package binaryio
 type Endian int
 
 const (
-	LittleEndian = iota
+	LittleEndian Endian = iota
 	BigEndian
 )
