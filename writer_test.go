@@ -32,134 +32,134 @@ func removeFile(s string, t *testing.T) {
 func TestWriter(t *testing.T) {
 	testFileName := "test.bin"
 	{
-		// WriteInt8
+		// WriteI8
 		var n int
 		v := int8(math.MinInt8)
 
 		fw := openWriteFile(testFileName, t)
 		w := NewWriter(fw)
-		n = w.WriteInt8(v)
+		n = w.WriteI8(v)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 1 {
-			t.Fatalf("Invalid WriteUint8 %d", n)
+			t.Fatalf("Invalid WriteU8 %d", n)
 		}
 		fw.Sync()
 		fw.Close()
 
 		fr := openReadFile(testFileName, t)
 		r := NewReader(fr)
-		if r.ReadInt8() != v {
-			t.Fatalf("Invalid ReadUint8 %x", v)
+		if r.ReadI8() != v {
+			t.Fatalf("Invalid ReadU8 %x", v)
 		}
 		fr.Close()
 
 		removeFile(testFileName, t)
 	}
 	{
-		// WriteLEInt16 WriteBEInt16
+		// WriteI16LE WriteI16BE
 		var n int
 		v := int16(math.MinInt16)
 
 		fw := openWriteFile(testFileName, t)
 		w := NewWriter(fw)
-		n = w.WriteInt16(v, LittleEndian)
+		n = w.WriteI16(v, LittleEndian)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 2 {
-			t.Fatalf("Invalid WriteLEInt16 %d", n)
+			t.Fatalf("Invalid WriteI16LE %d", n)
 		}
-		n = w.WriteInt16(v, BigEndian)
+		n = w.WriteI16(v, BigEndian)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 2 {
-			t.Fatalf("Invalid WriteBEInt16 %d", n)
+			t.Fatalf("Invalid WriteI16BE %d", n)
 		}
 		fw.Sync()
 		fw.Close()
 
 		fr := openReadFile(testFileName, t)
 		r := NewReader(fr)
-		if r.ReadInt16(LittleEndian) != v {
-			t.Fatalf("Invalid ReadLEInt16 %x", v)
+		if r.ReadI16(LittleEndian) != v {
+			t.Fatalf("Invalid ReadI16LE %x", v)
 		}
-		if r.ReadInt16(BigEndian) != v {
-			t.Fatalf("Invalid ReadLEInt16 %x", v)
+		if r.ReadI16(BigEndian) != v {
+			t.Fatalf("Invalid ReadI16LE %x", v)
 		}
 		fr.Close()
 
 		removeFile(testFileName, t)
 	}
 	{
-		// WriteLEInt24 WriteBEInt24
+		// WriteI24LE WriteBEI24
 		var n int
 		v := int32(-8388608)
 
 		fw := openWriteFile(testFileName, t)
 		w := NewWriter(fw)
-		n = w.WriteInt24(v, LittleEndian)
+		n = w.WriteI24(v, LittleEndian)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 3 {
-			t.Fatalf("Invalid WriteLEInt24 %d", n)
+			t.Fatalf("Invalid WriteI24LE %d", n)
 		}
-		n = w.WriteInt24(v, BigEndian)
+		n = w.WriteI24(v, BigEndian)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 3 {
-			t.Fatalf("Invalid WriteLEInt24 %d", n)
+			t.Fatalf("Invalid WriteI24LE %d", n)
 		}
 		fw.Sync()
 		fw.Close()
 
 		fr := openReadFile(testFileName, t)
 		r := NewReader(fr)
-		if r.ReadInt24(LittleEndian) != v {
-			t.Fatalf("Invalid ReadLEInt24 %x", v)
+		if r.ReadI24(LittleEndian) != v {
+			t.Fatalf("Invalid ReadI24LE %x", v)
 		}
-		if r.ReadInt24(BigEndian) != v {
-			t.Fatalf("Invalid ReadLEInt24 %x", v)
+		if r.ReadI24(BigEndian) != v {
+			t.Fatalf("Invalid ReadI24LE %x", v)
 		}
 		fr.Close()
 
 		removeFile(testFileName, t)
 	}
 	{
-		// WriteLEInt32 WriteBEInt32
+		// WriteI32LE WriteBEI32
 		var n int
 		v := int32(math.MinInt32)
 
 		fw := openWriteFile(testFileName, t)
 		w := NewWriter(fw)
-		n = w.WriteInt32(v, LittleEndian)
+		n = w.WriteI32(v, LittleEndian)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 4 {
-			t.Fatalf("Invalid WriteLEInt32 %d", n)
+			t.Fatalf("Invalid WriteI32LE %d", n)
 		}
-		n = w.WriteInt32(v, BigEndian)
+		n = w.WriteI32(v, BigEndian)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 4 {
-			t.Fatalf("Invalid WriteLEInt32 %d", n)
+			t.Fatalf("Invalid WriteI32LE %d", n)
 		}
 		fw.Sync()
 		fw.Close()
 
 		fr := openReadFile(testFileName, t)
 		r := NewReader(fr)
-		if r.ReadInt32(LittleEndian) != v {
-			t.Fatalf("Invalid ReadLEInt32 %x", v)
+		if r.ReadI32(LittleEndian) != v {
+			t.Fatalf("Invalid ReadI32LE %x", v)
 		}
-		if r.ReadInt32(BigEndian) != v {
-			t.Fatalf("Invalid ReadLEInt32 %x", v)
+		if r.ReadI32(BigEndian) != v {
+			t.Fatalf("Invalid ReadI32LE %x", v)
 		}
 		fr.Close()
 
@@ -167,51 +167,51 @@ func TestWriter(t *testing.T) {
 	}
 
 	{
-		// WriteUint8
+		// WriteU8
 		var n int
 		v := uint8(0x12)
 
 		fw := openWriteFile(testFileName, t)
 		w := NewWriter(fw)
-		n = w.WriteUint8(v)
+		n = w.WriteU8(v)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 1 {
-			t.Fatalf("Invalid WriteUint8 %d", n)
+			t.Fatalf("Invalid WriteU8 %d", n)
 		}
 		fw.Sync()
 		fw.Close()
 
 		fr := openReadFile(testFileName, t)
 		r := NewReader(fr)
-		if r.ReadUint8() != v {
-			t.Fatalf("Invalid ReadUint8 %x", v)
+		if r.ReadU8() != v {
+			t.Fatalf("Invalid ReadU8 %x", v)
 		}
 		fr.Close()
 
 		removeFile(testFileName, t)
 	}
 	{
-		// WriteLEUint16 WriteBEUint16
+		// WriteU16LE WriteU16BE
 		var n int
 		v := uint16(0x1234)
 
 		fw := openWriteFile(testFileName, t)
 		w := NewWriter(fw)
-		n = w.WriteUint16(v, LittleEndian)
+		n = w.WriteU16(v, LittleEndian)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 2 {
-			t.Fatalf("Invalid WriteLEUint16 %d", n)
+			t.Fatalf("Invalid WriteU16LE %d", n)
 		}
-		n = w.WriteUint16(v, BigEndian)
+		n = w.WriteU16(v, BigEndian)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 2 {
-			t.Fatalf("Invalid WriteBEUint16 %d", n)
+			t.Fatalf("Invalid WriteU16BE %d", n)
 		}
 		fw.Sync()
 		fw.Close()
@@ -219,38 +219,38 @@ func TestWriter(t *testing.T) {
 		var rv uint16
 		fr := openReadFile(testFileName, t)
 		r := NewReader(fr)
-		rv = r.ReadUint16(LittleEndian)
+		rv = r.ReadU16(LittleEndian)
 		if rv != v {
-			t.Fatalf("Invalid ReadLEUint16 %x", rv)
+			t.Fatalf("Invalid ReadU16LE %x", rv)
 		}
-		rv = r.ReadUint16(BigEndian)
+		rv = r.ReadU16(BigEndian)
 		if rv != v {
-			t.Fatalf("Invalid ReadBEUint16 %x", rv)
+			t.Fatalf("Invalid ReadU16BE %x", rv)
 		}
 		fr.Close()
 
 		removeFile(testFileName, t)
 	}
 	{
-		// WriteLEUint24 WriteBEUint24
+		// WriteU24LE WriteU24BE
 		var n int
 		v := uint32(0x123456)
 
 		fw := openWriteFile(testFileName, t)
 		w := NewWriter(fw)
-		n = w.WriteUint24(v, LittleEndian)
+		n = w.WriteU24(v, LittleEndian)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 3 {
-			t.Fatalf("Invalid WriteLEUint24 %d", n)
+			t.Fatalf("Invalid WriteU24LE %d", n)
 		}
-		n = w.WriteUint24(v, BigEndian)
+		n = w.WriteU24(v, BigEndian)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 3 {
-			t.Fatalf("Invalid WriteBEUint24 %d", n)
+			t.Fatalf("Invalid WriteU24BE %d", n)
 		}
 		fw.Sync()
 		fw.Close()
@@ -258,38 +258,38 @@ func TestWriter(t *testing.T) {
 		var rv uint32
 		fr := openReadFile(testFileName, t)
 		r := NewReader(fr)
-		rv = r.ReadUint24(LittleEndian)
+		rv = r.ReadU24(LittleEndian)
 		if rv != v {
-			t.Fatalf("Invalid ReadLEUint24 %x", rv)
+			t.Fatalf("Invalid ReadU24LE %x", rv)
 		}
-		rv = r.ReadUint24(BigEndian)
+		rv = r.ReadU24(BigEndian)
 		if rv != v {
-			t.Fatalf("Invalid ReadBEUint24 %x", rv)
+			t.Fatalf("Invalid ReadU24BE %x", rv)
 		}
 		fr.Close()
 
 		removeFile(testFileName, t)
 	}
 	{
-		// WriteLEUint32 WriteBEUint32
+		// WriteU32LE WriteU32BE
 		var n int
 		v := uint32(0x12345678)
 
 		fw := openWriteFile(testFileName, t)
 		w := NewWriter(fw)
-		n = w.WriteUint32(v, LittleEndian)
+		n = w.WriteU32(v, LittleEndian)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 4 {
-			t.Fatalf("Invalid WriteLEUint32 %d", n)
+			t.Fatalf("Invalid WriteU32LE %d", n)
 		}
-		n = w.WriteUint32(v, BigEndian)
+		n = w.WriteU32(v, BigEndian)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 4 {
-			t.Fatalf("Invalid WriteBEUint32 %d", n)
+			t.Fatalf("Invalid WriteU32BE %d", n)
 		}
 		fw.Sync()
 		fw.Close()
@@ -297,13 +297,13 @@ func TestWriter(t *testing.T) {
 		var rv uint32
 		fr := openReadFile(testFileName, t)
 		r := NewReader(fr)
-		rv = r.ReadUint32(LittleEndian)
+		rv = r.ReadU32(LittleEndian)
 		if rv != v {
-			t.Fatalf("Invalid ReadLEUint32 %x", rv)
+			t.Fatalf("Invalid ReadU32LE %x", rv)
 		}
-		rv = r.ReadUint32(BigEndian)
+		rv = r.ReadU32(BigEndian)
 		if rv != v {
-			t.Fatalf("Invalid ReadBEUint32 %x", rv)
+			t.Fatalf("Invalid ReadU32BE %x", rv)
 		}
 		fr.Close()
 
@@ -311,134 +311,134 @@ func TestWriter(t *testing.T) {
 	}
 
 	{
-		// WriteStr8
+		// WriteS8
 		var n int
 		v := "1"
 
 		fw := openWriteFile(testFileName, t)
 		w := NewWriter(fw)
-		n = w.WriteStr8(v)
+		n = w.WriteS8(v)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 1 {
-			t.Fatalf("Invalid WriteUint8 %d", n)
+			t.Fatalf("Invalid WriteU8 %d", n)
 		}
 		fw.Sync()
 		fw.Close()
 
 		fr := openReadFile(testFileName, t)
 		r := NewReader(fr)
-		if r.ReadStr8() != v {
-			t.Fatalf("Invalid ReadUint8 %x", v)
+		if r.ReadS8() != v {
+			t.Fatalf("Invalid ReadU8 %x", v)
 		}
 		fr.Close()
 
 		removeFile(testFileName, t)
 	}
 	{
-		// WriteLEStr16 WriteBEStr16
+		// WriteS16LE WriteS16BE
 		var n int
 		v := "12"
 
 		fw := openWriteFile(testFileName, t)
 		w := NewWriter(fw)
-		n = w.WriteStr16(v, LittleEndian)
+		n = w.WriteS16(v, LittleEndian)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 2 {
-			t.Fatalf("Invalid WriteLEStr16 %d", n)
+			t.Fatalf("Invalid WriteS16LE %d", n)
 		}
-		n = w.WriteStr16(v, BigEndian)
+		n = w.WriteS16(v, BigEndian)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 2 {
-			t.Fatalf("Invalid WriteBEStr16 %d", n)
+			t.Fatalf("Invalid WriteS16BE %d", n)
 		}
 		fw.Sync()
 		fw.Close()
 
 		fr := openReadFile(testFileName, t)
 		r := NewReader(fr)
-		if r.ReadStr16(LittleEndian) != v {
-			t.Fatalf("Invalid ReadLEStr16 %x", v)
+		if r.ReadS16(LittleEndian) != v {
+			t.Fatalf("Invalid ReadS16LE %x", v)
 		}
-		if r.ReadStr16(BigEndian) != v {
-			t.Fatalf("Invalid ReadBEStr16 %x", v)
+		if r.ReadS16(BigEndian) != v {
+			t.Fatalf("Invalid ReadS16BE %x", v)
 		}
 		fr.Close()
 
 		removeFile(testFileName, t)
 	}
 	{
-		// WriteLEStr24 WriteBEStr24
+		// WriteS24LE WriteS24BE
 		var n int
 		v := "123"
 
 		fw := openWriteFile(testFileName, t)
 		w := NewWriter(fw)
-		n = w.WriteStr24(v, LittleEndian)
+		n = w.WriteS24(v, LittleEndian)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 3 {
-			t.Fatalf("Invalid WriteLEStr24 %d", n)
+			t.Fatalf("Invalid WriteS24LE %d", n)
 		}
-		n = w.WriteStr24(v, BigEndian)
+		n = w.WriteS24(v, BigEndian)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 3 {
-			t.Fatalf("Invalid WriteBEStr24 %d", n)
+			t.Fatalf("Invalid WriteS24BE %d", n)
 		}
 		fw.Sync()
 		fw.Close()
 
 		fr := openReadFile(testFileName, t)
 		r := NewReader(fr)
-		if r.ReadStr24(LittleEndian) != v {
-			t.Fatalf("Invalid ReadLEStr24 %x", v)
+		if r.ReadS24(LittleEndian) != v {
+			t.Fatalf("Invalid ReadS24LE %x", v)
 		}
-		if r.ReadStr24(BigEndian) != v {
-			t.Fatalf("Invalid ReadBEStr24 %x", v)
+		if r.ReadS24(BigEndian) != v {
+			t.Fatalf("Invalid ReadS24BE %x", v)
 		}
 		fr.Close()
 
 		removeFile(testFileName, t)
 	}
 	{
-		// WriteLEStr32 WriteBEStr32
+		// WriteS32LE WriteBES32
 		var n int
 		v := "1234"
 
 		fw := openWriteFile(testFileName, t)
 		w := NewWriter(fw)
-		n = w.WriteStr32(v, LittleEndian)
+		n = w.WriteS32(v, LittleEndian)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 4 {
-			t.Fatalf("Invalid WriteLEStr32 %d", n)
+			t.Fatalf("Invalid WriteS32LE %d", n)
 		}
-		n = w.WriteStr32(v, BigEndian)
+		n = w.WriteS32(v, BigEndian)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
 		if n != 4 {
-			t.Fatalf("Invalid WriteBEStr32 %d", n)
+			t.Fatalf("Invalid WriteS32LE %d", n)
 		}
 		fw.Sync()
 		fw.Close()
 
 		fr := openReadFile(testFileName, t)
 		r := NewReader(fr)
-		if r.ReadStr32(LittleEndian) != v {
-			t.Fatalf("Invalid ReadLEStr32 %x", v)
+		if r.ReadS32(LittleEndian) != v {
+			t.Fatalf("Invalid ReadS32LE %x", v)
 		}
-		if r.ReadStr32(BigEndian) != v {
-			t.Fatalf("Invalid ReadBEStr32 %x", v)
+		if r.ReadS32(BigEndian) != v {
+			t.Fatalf("Invalid ReadS32BE %x", v)
 		}
 		fr.Close()
 

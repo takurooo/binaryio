@@ -58,8 +58,8 @@ func (bw *Writer) WriteRaw(p []byte) (n int) {
 	return n
 }
 
-// WriteInt8 ...
-func (bw *Writer) WriteInt8(v int8) (n int) {
+// WriteI8 ...
+func (bw *Writer) WriteI8(v int8) (n int) {
 	if bw.err != nil {
 		return 0
 	}
@@ -70,35 +70,35 @@ func (bw *Writer) WriteInt8(v int8) (n int) {
 	return n
 }
 
-// WriteInt16 ...
-func (bw *Writer) WriteInt16(v int16, e Endian) (n int) {
+// WriteI16 ...
+func (bw *Writer) WriteI16(v int16, e Endian) (n int) {
 	if bw.err != nil {
 		return 0
 	}
-	n = bw.WriteUint16(uint16(v), e)
+	n = bw.WriteU16(uint16(v), e)
 	return n
 }
 
-// WriteInt24 ...
-func (bw *Writer) WriteInt24(v int32, e Endian) (n int) {
+// WriteI24 ...
+func (bw *Writer) WriteI24(v int32, e Endian) (n int) {
 	if bw.err != nil {
 		return 0
 	}
-	n = bw.WriteUint24(uint32(v), e)
+	n = bw.WriteU24(uint32(v), e)
 	return n
 }
 
-// WriteInt32 ...
-func (bw *Writer) WriteInt32(v int32, e Endian) (n int) {
+// WriteI32 ...
+func (bw *Writer) WriteI32(v int32, e Endian) (n int) {
 	if bw.err != nil {
 		return 0
 	}
-	n = bw.WriteUint32(uint32(v), e)
+	n = bw.WriteU32(uint32(v), e)
 	return n
 }
 
-// WriteUint8 ...
-func (bw *Writer) WriteUint8(v uint8) (n int) {
+// WriteU8 ...
+func (bw *Writer) WriteU8(v uint8) (n int) {
 	if bw.err != nil {
 		return 0
 	}
@@ -109,8 +109,8 @@ func (bw *Writer) WriteUint8(v uint8) (n int) {
 	return n
 }
 
-// WriteUint16 ...
-func (bw *Writer) WriteUint16(v uint16, e Endian) (n int) {
+// WriteU16 ...
+func (bw *Writer) WriteU16(v uint16, e Endian) (n int) {
 	if bw.err != nil {
 		return 0
 	}
@@ -130,8 +130,8 @@ func (bw *Writer) WriteUint16(v uint16, e Endian) (n int) {
 	return n
 }
 
-// WriteUint24 ...
-func (bw *Writer) WriteUint24(v uint32, e Endian) (n int) {
+// WriteU24 ...
+func (bw *Writer) WriteU24(v uint32, e Endian) (n int) {
 	if bw.err != nil {
 		return 0
 	}
@@ -153,8 +153,8 @@ func (bw *Writer) WriteUint24(v uint32, e Endian) (n int) {
 	return n
 }
 
-// WriteUint32 ...
-func (bw *Writer) WriteUint32(v uint32, e Endian) (n int) {
+// WriteU32 ...
+func (bw *Writer) WriteU32(v uint32, e Endian) (n int) {
 	if bw.err != nil {
 		return 0
 	}
@@ -178,34 +178,34 @@ func (bw *Writer) WriteUint32(v uint32, e Endian) (n int) {
 	return n
 }
 
-// WriteStr8 ...
-func (bw *Writer) WriteStr8(s string) (n int) {
+// WriteS8 ...
+func (bw *Writer) WriteS8(s string) (n int) {
 	if bw.err != nil {
 		return 0
 	}
 
 	var v uint8
 	v = uint8(s[0])
-	n = bw.WriteUint8(v)
+	n = bw.WriteU8(v)
 
 	return n
 }
 
-// WriteStr16 ...
-func (bw *Writer) WriteStr16(s string, e Endian) (n int) {
+// WriteS16 ...
+func (bw *Writer) WriteS16(s string, e Endian) (n int) {
 	if bw.err != nil {
 		return 0
 	}
 	var v uint16
 	v = uint16(s[0])<<8 |
 		uint16(s[1])
-	n = bw.WriteUint16(v, e)
+	n = bw.WriteU16(v, e)
 
 	return n
 }
 
-// WriteStr24 ...
-func (bw *Writer) WriteStr24(s string, e Endian) (n int) {
+// WriteS24 ...
+func (bw *Writer) WriteS24(s string, e Endian) (n int) {
 	if bw.err != nil {
 		return 0
 	}
@@ -213,13 +213,13 @@ func (bw *Writer) WriteStr24(s string, e Endian) (n int) {
 	v = uint32(s[0])<<16 |
 		uint32(s[1])<<8 |
 		uint32(s[2])
-	n = bw.WriteUint24(v, e)
+	n = bw.WriteU24(v, e)
 
 	return n
 }
 
-// WriteStr32 ...
-func (bw *Writer) WriteStr32(s string, e Endian) (n int) {
+// WriteS32 ...
+func (bw *Writer) WriteS32(s string, e Endian) (n int) {
 	if bw.err != nil {
 		return 0
 	}
@@ -228,7 +228,7 @@ func (bw *Writer) WriteStr32(s string, e Endian) (n int) {
 		uint32(s[1])<<16 |
 		uint32(s[2])<<8 |
 		uint32(s[3])
-	n = bw.WriteUint32(v, e)
+	n = bw.WriteU32(v, e)
 
 	return n
 }

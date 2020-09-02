@@ -50,30 +50,30 @@ func (br *Reader) ReadRaw(n uint64) []byte {
 	return data
 }
 
-// ReadInt8 ...
-func (br *Reader) ReadInt8() int8 {
+// ReadI8 ...
+func (br *Reader) ReadI8() int8 {
 	if br.err != nil {
 		return 0
 	}
 
-	return int8(br.ReadUint8())
+	return int8(br.ReadU8())
 }
 
-// ReadInt16 ...
-func (br *Reader) ReadInt16(e Endian) int16 {
+// ReadI16 ...
+func (br *Reader) ReadI16(e Endian) int16 {
 	if br.err != nil {
 		return 0
 	}
 
-	return int16(br.ReadUint16(e))
+	return int16(br.ReadU16(e))
 }
 
-// ReadInt24 ...
-func (br *Reader) ReadInt24(e Endian) int32 {
+// ReadI24 ...
+func (br *Reader) ReadI24(e Endian) int32 {
 	if br.err != nil {
 		return 0
 	}
-	tmp := br.ReadUint24(e)
+	tmp := br.ReadU24(e)
 
 	var b int32
 	if tmp&0x800000 == 0x800000 {
@@ -85,17 +85,17 @@ func (br *Reader) ReadInt24(e Endian) int32 {
 	return b
 }
 
-// ReadInt32 ...
-func (br *Reader) ReadInt32(e Endian) int32 {
+// ReadI32 ...
+func (br *Reader) ReadI32(e Endian) int32 {
 	if br.err != nil {
 		return 0
 	}
 
-	return int32(br.ReadUint32(e))
+	return int32(br.ReadU32(e))
 }
 
-// ReadUint8 ...
-func (br *Reader) ReadUint8() uint8 {
+// ReadU8 ...
+func (br *Reader) ReadU8() uint8 {
 	if br.err != nil {
 		return 0
 	}
@@ -104,8 +104,8 @@ func (br *Reader) ReadUint8() uint8 {
 	return uint8(data[0])
 }
 
-// ReadUint16 ...
-func (br *Reader) ReadUint16(e Endian) uint16 {
+// ReadU16 ...
+func (br *Reader) ReadU16(e Endian) uint16 {
 	if br.err != nil {
 		return 0
 	}
@@ -123,8 +123,8 @@ func (br *Reader) ReadUint16(e Endian) uint16 {
 	return b
 }
 
-// ReadUint24 ...
-func (br *Reader) ReadUint24(e Endian) uint32 {
+// ReadU24 ...
+func (br *Reader) ReadU24(e Endian) uint32 {
 	if br.err != nil {
 		return 0
 	}
@@ -144,8 +144,8 @@ func (br *Reader) ReadUint24(e Endian) uint32 {
 	return b
 }
 
-// ReadUint32 ...
-func (br *Reader) ReadUint32(e Endian) uint32 {
+// ReadU32 ...
+func (br *Reader) ReadU32(e Endian) uint32 {
 	if br.err != nil {
 		return 0
 	}
@@ -167,21 +167,21 @@ func (br *Reader) ReadUint32(e Endian) uint32 {
 	return b
 }
 
-// ReadStr8 ...
-func (br *Reader) ReadStr8() string {
+// ReadS8 ...
+func (br *Reader) ReadS8() string {
 	if br.err != nil {
 		return ""
 	}
 
-	return string(br.ReadUint8())
+	return string(br.ReadU8())
 }
 
-// ReadStr16 ...
-func (br *Reader) ReadStr16(e Endian) string {
+// ReadS16 ...
+func (br *Reader) ReadS16(e Endian) string {
 	if br.err != nil {
 		return ""
 	}
-	data := br.ReadUint16(e)
+	data := br.ReadU16(e)
 
 	tmp := make([]byte, 2)
 	tmp[1] = byte(0x000000FF & data)
@@ -190,12 +190,12 @@ func (br *Reader) ReadStr16(e Endian) string {
 	return string(tmp)
 }
 
-// ReadStr24 ...
-func (br *Reader) ReadStr24(e Endian) string {
+// ReadS24 ...
+func (br *Reader) ReadS24(e Endian) string {
 	if br.err != nil {
 		return ""
 	}
-	data := br.ReadUint24(e)
+	data := br.ReadU24(e)
 
 	tmp := make([]byte, 3)
 	tmp[2] = byte(0x000000FF & data)
@@ -205,12 +205,12 @@ func (br *Reader) ReadStr24(e Endian) string {
 	return string(tmp)
 }
 
-// ReadStr32 ...
-func (br *Reader) ReadStr32(e Endian) string {
+// ReadS32 ...
+func (br *Reader) ReadS32(e Endian) string {
 	if br.err != nil {
 		return ""
 	}
-	data := br.ReadUint32(e)
+	data := br.ReadU32(e)
 
 	tmp := make([]byte, 4)
 	tmp[3] = byte(0x000000FF & data)

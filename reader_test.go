@@ -13,7 +13,7 @@ func TestReader(t *testing.T) {
 	// -----------------------------
 	{
 		r := NewReader(bytes.NewReader([]byte{0x80}))
-		b := r.ReadInt8()
+		b := r.ReadI8()
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
@@ -26,7 +26,7 @@ func TestReader(t *testing.T) {
 	// -----------------------------
 	{
 		r := NewReader(bytes.NewReader([]byte{0x00, 0x80}))
-		b := r.ReadInt16(LittleEndian)
+		b := r.ReadI16(LittleEndian)
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
@@ -36,7 +36,7 @@ func TestReader(t *testing.T) {
 	}
 	{
 		r := NewReader(bytes.NewReader([]byte{0x00, 0x00, 0x80}))
-		b := r.ReadInt24(LittleEndian)
+		b := r.ReadI24(LittleEndian)
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
@@ -46,7 +46,7 @@ func TestReader(t *testing.T) {
 	}
 	{
 		r := NewReader(bytes.NewReader([]byte{0x00, 0x00, 0x00, 0x80}))
-		b := r.ReadInt32(LittleEndian)
+		b := r.ReadI32(LittleEndian)
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
@@ -60,7 +60,7 @@ func TestReader(t *testing.T) {
 	// -----------------------------
 	{
 		r := NewReader(bytes.NewReader([]byte{0x80, 0x00}))
-		b := r.ReadInt16(BigEndian)
+		b := r.ReadI16(BigEndian)
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
@@ -70,7 +70,7 @@ func TestReader(t *testing.T) {
 	}
 	{
 		r := NewReader(bytes.NewReader([]byte{0x80, 0x00, 0x00}))
-		b := r.ReadInt24(BigEndian)
+		b := r.ReadI24(BigEndian)
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
@@ -80,7 +80,7 @@ func TestReader(t *testing.T) {
 	}
 	{
 		r := NewReader(bytes.NewReader([]byte{0x80, 0x00, 0x00, 0x00}))
-		b := r.ReadInt32(BigEndian)
+		b := r.ReadI32(BigEndian)
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
@@ -94,7 +94,7 @@ func TestReader(t *testing.T) {
 	// -----------------------------
 	{
 		r := NewReader(bytes.NewReader([]byte{0x80}))
-		b := r.ReadUint8()
+		b := r.ReadU8()
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
@@ -107,7 +107,7 @@ func TestReader(t *testing.T) {
 	// -----------------------------
 	{
 		r := NewReader(bytes.NewReader([]byte{0x00, 0x80}))
-		b := r.ReadUint16(LittleEndian)
+		b := r.ReadU16(LittleEndian)
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
@@ -117,7 +117,7 @@ func TestReader(t *testing.T) {
 	}
 	{
 		r := NewReader(bytes.NewReader([]byte{0x00, 0x00, 0x80}))
-		b := r.ReadUint24(LittleEndian)
+		b := r.ReadU24(LittleEndian)
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
@@ -127,7 +127,7 @@ func TestReader(t *testing.T) {
 	}
 	{
 		r := NewReader(bytes.NewReader([]byte{0x00, 0x00, 0x00, 0x80}))
-		b := r.ReadUint32(LittleEndian)
+		b := r.ReadU32(LittleEndian)
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
@@ -140,7 +140,7 @@ func TestReader(t *testing.T) {
 	// -----------------------------
 	{
 		r := NewReader(bytes.NewReader([]byte{0x80, 0x00}))
-		b := r.ReadUint16(BigEndian)
+		b := r.ReadU16(BigEndian)
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
@@ -150,7 +150,7 @@ func TestReader(t *testing.T) {
 	}
 	{
 		r := NewReader(bytes.NewReader([]byte{0x80, 0x00, 0x00}))
-		b := r.ReadUint24(BigEndian)
+		b := r.ReadU24(BigEndian)
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
@@ -160,7 +160,7 @@ func TestReader(t *testing.T) {
 	}
 	{
 		r := NewReader(bytes.NewReader([]byte{0x80, 0x00, 0x00, 0x00}))
-		b := r.ReadUint32(BigEndian)
+		b := r.ReadU32(BigEndian)
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
@@ -173,7 +173,7 @@ func TestReader(t *testing.T) {
 	// -----------------------------
 	{
 		r := NewReader(bytes.NewReader([]byte("1")))
-		b := r.ReadStr8()
+		b := r.ReadS8()
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
@@ -186,7 +186,7 @@ func TestReader(t *testing.T) {
 	// -----------------------------
 	{
 		r := NewReader(bytes.NewReader([]byte("21")))
-		b := r.ReadStr16(LittleEndian)
+		b := r.ReadS16(LittleEndian)
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
@@ -196,7 +196,7 @@ func TestReader(t *testing.T) {
 	}
 	{
 		r := NewReader(bytes.NewReader([]byte("321")))
-		b := r.ReadStr24(LittleEndian)
+		b := r.ReadS24(LittleEndian)
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
@@ -206,7 +206,7 @@ func TestReader(t *testing.T) {
 	}
 	{
 		r := NewReader(bytes.NewReader([]byte("4321")))
-		b := r.ReadStr32(LittleEndian)
+		b := r.ReadS32(LittleEndian)
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
@@ -219,7 +219,7 @@ func TestReader(t *testing.T) {
 	// -----------------------------
 	{
 		r := NewReader(bytes.NewReader([]byte("12")))
-		b := r.ReadStr16(BigEndian)
+		b := r.ReadS16(BigEndian)
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
@@ -229,7 +229,7 @@ func TestReader(t *testing.T) {
 	}
 	{
 		r := NewReader(bytes.NewReader([]byte("123")))
-		b := r.ReadStr24(BigEndian)
+		b := r.ReadS24(BigEndian)
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
@@ -239,7 +239,7 @@ func TestReader(t *testing.T) {
 	}
 	{
 		r := NewReader(bytes.NewReader([]byte("1234")))
-		b := r.ReadStr32(BigEndian)
+		b := r.ReadS32(BigEndian)
 		if r.Err() != nil {
 			t.Fatal(r.Err())
 		}
