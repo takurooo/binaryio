@@ -27,12 +27,12 @@ func main() {
 	fw, _ := os.Create("temp.bin")
 	w := bio.NewWriter(fw)
 
-	w.WriteUint32(v, bio.LittleEndian)
+	w.WriteU32(v, bio.LittleEndian)
 	if w.Err() != nil {
 		panic(w.Err())
 	}
 
-	w.WriteUint32(v, bio.BigEndian)
+	w.WriteU32(v, bio.BigEndian)
 	if w.Err() != nil {
 		panic(w.Err())
 	}
@@ -45,11 +45,11 @@ func main() {
 	fr, _ := os.Open("temp.bin")
 	r := bio.NewReader(fr)
 
-	if r.ReadUint32(bio.LittleEndian) != v {
+	if r.ReadU32(bio.LittleEndian) != v {
 		panic(w.Err())
 	}
 
-	if r.ReadUint32(bio.BigEndian) != v {
+	if r.ReadU32(bio.BigEndian) != v {
 		panic(w.Err())
 	}
 
