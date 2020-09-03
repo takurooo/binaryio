@@ -1,5 +1,5 @@
 # binaryio
-A simple binary read/write library for Go.
+Binary reader/writer for Go.
 
 
 # godoc
