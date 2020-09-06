@@ -165,7 +165,42 @@ func TestWriter(t *testing.T) {
 
 		removeFile(testFileName, t)
 	}
+	{
+		// WriteI64LE WriteI64BE
+		var n int
+		v := int64(math.MinInt64)
 
+		fw := openWriteFile(testFileName, t)
+		w := NewWriter(fw)
+		n = w.WriteI64(v, LittleEndian)
+		if w.Err() != nil {
+			t.Fatal(w.Err())
+		}
+		if n != 8 {
+			t.Fatalf("Invalid WriteI64LE %d", n)
+		}
+		n = w.WriteI64(v, BigEndian)
+		if w.Err() != nil {
+			t.Fatal(w.Err())
+		}
+		if n != 8 {
+			t.Fatalf("Invalid WriteI64LE %d", n)
+		}
+		fw.Sync()
+		fw.Close()
+
+		fr := openReadFile(testFileName, t)
+		r := NewReader(fr)
+		if r.ReadI64(LittleEndian) != v {
+			t.Fatalf("Invalid ReadI64LE %x", v)
+		}
+		if r.ReadI64(BigEndian) != v {
+			t.Fatalf("Invalid ReadI64LE %x", v)
+		}
+		fr.Close()
+
+		removeFile(testFileName, t)
+	}
 	{
 		// WriteU8
 		var n int
@@ -309,6 +344,45 @@ func TestWriter(t *testing.T) {
 
 		removeFile(testFileName, t)
 	}
+	{
+		// WriteU64LE WriteU64BE
+		var n int
+		v := uint64(0x0123456789ABCDEF)
+
+		fw := openWriteFile(testFileName, t)
+		w := NewWriter(fw)
+		n = w.WriteU64(v, LittleEndian)
+		if w.Err() != nil {
+			t.Fatal(w.Err())
+		}
+		if n != 8 {
+			t.Fatalf("Invalid WriteU64LE %d", n)
+		}
+		n = w.WriteU64(v, BigEndian)
+		if w.Err() != nil {
+			t.Fatal(w.Err())
+		}
+		if n != 8 {
+			t.Fatalf("Invalid WriteU64BE %d", n)
+		}
+		fw.Sync()
+		fw.Close()
+
+		var rv uint64
+		fr := openReadFile(testFileName, t)
+		r := NewReader(fr)
+		rv = r.ReadU64(LittleEndian)
+		if rv != v {
+			t.Fatalf("Invalid ReadU64LE %x", rv)
+		}
+		rv = r.ReadU64(BigEndian)
+		if rv != v {
+			t.Fatalf("Invalid ReadU64BE %x", rv)
+		}
+		fr.Close()
+
+		removeFile(testFileName, t)
+	}
 
 	{
 		// WriteS8
@@ -439,6 +513,42 @@ func TestWriter(t *testing.T) {
 		}
 		if r.ReadS32(BigEndian) != v {
 			t.Fatalf("Invalid ReadS32BE %x", v)
+		}
+		fr.Close()
+
+		removeFile(testFileName, t)
+	}
+	{
+		// WriteS64LE WriteS64BE
+		var n int
+		v := "12345678"
+
+		fw := openWriteFile(testFileName, t)
+		w := NewWriter(fw)
+		n = w.WriteS64(v, LittleEndian)
+		if w.Err() != nil {
+			t.Fatal(w.Err())
+		}
+		if n != 8 {
+			t.Fatalf("Invalid WriteS64LE %d", n)
+		}
+		n = w.WriteS64(v, BigEndian)
+		if w.Err() != nil {
+			t.Fatal(w.Err())
+		}
+		if n != 8 {
+			t.Fatalf("Invalid WriteS64LE %d", n)
+		}
+		fw.Sync()
+		fw.Close()
+
+		fr := openReadFile(testFileName, t)
+		r := NewReader(fr)
+		if r.ReadS64(LittleEndian) != v {
+			t.Fatalf("Invalid ReadS64LE %x", v)
+		}
+		if r.ReadS64(BigEndian) != v {
+			t.Fatalf("Invalid ReadS64BE %x", v)
 		}
 		fr.Close()
 

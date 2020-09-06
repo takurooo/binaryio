@@ -94,6 +94,15 @@ func (br *Reader) ReadI32(e Endian) int32 {
 	return int32(br.ReadU32(e))
 }
 
+// ReadI64 ...
+func (br *Reader) ReadI64(e Endian) int64 {
+	if br.err != nil {
+		return 0
+	}
+
+	return int64(br.ReadU64(e))
+}
+
 // ReadU8 ...
 func (br *Reader) ReadU8() uint8 {
 	if br.err != nil {
@@ -167,6 +176,37 @@ func (br *Reader) ReadU32(e Endian) uint32 {
 	return b
 }
 
+// ReadU64 ...
+func (br *Reader) ReadU64(e Endian) uint64 {
+	if br.err != nil {
+		return 0
+	}
+	data := br.readBytes(8)
+
+	var b uint64
+	if e == LittleEndian {
+		b = uint64(data[7])<<56 +
+			uint64(data[6])<<48 +
+			uint64(data[5])<<40 +
+			uint64(data[4])<<32 +
+			uint64(data[3])<<24 +
+			uint64(data[2])<<16 +
+			uint64(data[1])<<8 +
+			uint64(data[0])
+	} else {
+		b = uint64(data[0])<<56 +
+			uint64(data[1])<<48 +
+			uint64(data[2])<<40 +
+			uint64(data[3])<<32 +
+			uint64(data[4])<<24 +
+			uint64(data[5])<<16 +
+			uint64(data[6])<<8 +
+			uint64(data[7])
+	}
+
+	return b
+}
+
 // ReadS8 ...
 func (br *Reader) ReadS8() string {
 	if br.err != nil {
@@ -217,6 +257,26 @@ func (br *Reader) ReadS32(e Endian) string {
 	tmp[2] = byte(0x000000FF & (data >> 8))
 	tmp[1] = byte(0x000000FF & (data >> 16))
 	tmp[0] = byte(0x000000FF & (data >> 24))
+
+	return string(tmp)
+}
+
+// ReadS64 ...
+func (br *Reader) ReadS64(e Endian) string {
+	if br.err != nil {
+		return ""
+	}
+	data := br.ReadU64(e)
+
+	tmp := make([]byte, 8)
+	tmp[7] = byte(0x000000FF & data)
+	tmp[6] = byte(0x000000FF & (data >> 8))
+	tmp[5] = byte(0x000000FF & (data >> 16))
+	tmp[4] = byte(0x000000FF & (data >> 24))
+	tmp[3] = byte(0x000000FF & (data >> 32))
+	tmp[2] = byte(0x000000FF & (data >> 40))
+	tmp[1] = byte(0x000000FF & (data >> 48))
+	tmp[0] = byte(0x000000FF & (data >> 56))
 
 	return string(tmp)
 }
