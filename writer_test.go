@@ -31,18 +31,38 @@ func removeFile(s string, t *testing.T) {
 
 func TestWriter(t *testing.T) {
 	testFileName := "test.bin"
+
 	{
-		// WriteI8
 		var n int
-		v := int8(math.MinInt8)
+		i8 := int8(math.MinInt8)
+		i16 := int16(math.MinInt16)
+		i32 := int32(math.MinInt32)
+		i64 := int64(math.MinInt64)
+		u8 := uint8(math.MaxUint8)
+		u16 := uint16(math.MaxUint16)
+		u32 := uint32(math.MaxUint32)
+		u64 := uint64(math.MaxUint64)
+		si8 := []int8{1, 2, 3}
+		si16 := []int16{1, 2, 3}
+		si32 := []int32{1, 2, 3}
+		si64 := []int64{1, 2, 3}
+		su8 := []uint8{1, 2, 3}
+		su16 := []uint16{1, 2, 3}
+		su32 := []uint32{1, 2, 3}
+		su64 := []uint64{1, 2, 3}
 
 		fw := openWriteFile(testFileName, t)
 		w := NewWriter(fw)
-		n = w.WriteI8(v)
+		n = w.WriteX(
+			LittleEndian,
+			i8, i16, i32, i64,
+			u8, u16, u32, u64,
+			si8, si16, si32, si64,
+			su8, su16, su32, su64)
 		if w.Err() != nil {
 			t.Fatal(w.Err())
 		}
-		if n != 1 {
+		if n != 120 {
 			t.Fatalf("Invalid WriteU8 %d", n)
 		}
 		fw.Sync()
@@ -50,8 +70,69 @@ func TestWriter(t *testing.T) {
 
 		fr := openReadFile(testFileName, t)
 		r := NewReader(fr)
-		if r.ReadI8() != v {
-			t.Fatalf("Invalid ReadU8 %x", v)
+		if r.ReadI8() != i8 {
+			t.Fatalf("Invalid ReadI8")
+		}
+		if r.ReadI16(LittleEndian) != i16 {
+			t.Fatalf("Invalid ReadI16")
+		}
+		if r.ReadI32(LittleEndian) != i32 {
+			t.Fatalf("Invalid ReadI32")
+		}
+		if r.ReadI64(LittleEndian) != i64 {
+			t.Fatalf("Invalid ReadI64")
+		}
+		if r.ReadU8() != u8 {
+			t.Fatalf("Invalid ReadU8")
+		}
+		if r.ReadU16(LittleEndian) != u16 {
+			t.Fatalf("Invalid ReadU16")
+		}
+		if r.ReadU32(LittleEndian) != u32 {
+			t.Fatalf("Invalid ReadU32")
+		}
+		if r.ReadU64(LittleEndian) != u64 {
+			t.Fatalf("Invalid ReadU64")
+		}
+		for _, v := range si8 {
+			if r.ReadI8() != v {
+				t.Fatalf("Invalid ReadI8")
+			}
+		}
+		for _, v := range si16 {
+			if r.ReadI16(LittleEndian) != v {
+				t.Fatalf("Invalid ReadI16")
+			}
+		}
+		for _, v := range si32 {
+			if r.ReadI32(LittleEndian) != v {
+				t.Fatalf("Invalid ReadI32")
+			}
+		}
+		for _, v := range si64 {
+			if r.ReadI64(LittleEndian) != v {
+				t.Fatalf("Invalid ReadI64")
+			}
+		}
+		for _, v := range su8 {
+			if r.ReadU8() != v {
+				t.Fatalf("Invalid ReadU8")
+			}
+		}
+		for _, v := range su16 {
+			if r.ReadU16(LittleEndian) != v {
+				t.Fatalf("Invalid ReadU16")
+			}
+		}
+		for _, v := range su32 {
+			if r.ReadU32(LittleEndian) != v {
+				t.Fatalf("Invalid ReadU32")
+			}
+		}
+		for _, v := range su64 {
+			if r.ReadU64(LittleEndian) != v {
+				t.Fatalf("Invalid ReadU64")
+			}
 		}
 		fr.Close()
 

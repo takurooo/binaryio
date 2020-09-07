@@ -9,25 +9,26 @@ type Reader struct {
 	io.ReaderAt
 	offset int64
 	err    error
+	sbuf64 []byte
+	b64    []byte
 }
 
 // NewReader ...
 func NewReader(r io.ReaderAt) (br *Reader) {
-	br = &Reader{r, 0, nil}
+	br = &Reader{
+		r,
+		0,
+		nil,
+		make([]byte, 8),
+		make([]byte, 8),
+	}
 	return br
 }
 
 func (br *Reader) readBytes(n uint64) []byte {
-	offset := br.offset
-	data := make([]byte, n)
-
-	_, err := br.ReadAt(data, offset)
-	br.setErr(err)
-
-	defer func() {
-		br.offset += int64(n)
-	}()
-
+	data := br.b64[:n]
+	_, br.err = br.ReadAt(data, br.offset)
+	br.offset += int64(n)
 	return data
 }
 
@@ -43,11 +44,9 @@ func (br *Reader) Err() error {
 // ReadRaw ...
 func (br *Reader) ReadRaw(n uint64) []byte {
 	if br.err != nil {
-		return []byte{}
+		return nil
 	}
-	data := br.readBytes(n)
-
-	return data
+	return br.readBytes(n)
 }
 
 // ReadI8 ...
@@ -55,7 +54,6 @@ func (br *Reader) ReadI8() int8 {
 	if br.err != nil {
 		return 0
 	}
-
 	return int8(br.ReadU8())
 }
 
@@ -64,7 +62,6 @@ func (br *Reader) ReadI16(e Endian) int16 {
 	if br.err != nil {
 		return 0
 	}
-
 	return int16(br.ReadU16(e))
 }
 
@@ -90,7 +87,6 @@ func (br *Reader) ReadI32(e Endian) int32 {
 	if br.err != nil {
 		return 0
 	}
-
 	return int32(br.ReadU32(e))
 }
 
@@ -99,7 +95,6 @@ func (br *Reader) ReadI64(e Endian) int64 {
 	if br.err != nil {
 		return 0
 	}
-
 	return int64(br.ReadU64(e))
 }
 
@@ -109,7 +104,6 @@ func (br *Reader) ReadU8() uint8 {
 		return 0
 	}
 	data := br.readBytes(1)
-
 	return uint8(data[0])
 }
 
@@ -212,7 +206,6 @@ func (br *Reader) ReadS8() string {
 	if br.err != nil {
 		return ""
 	}
-
 	return string(br.ReadU8())
 }
 
@@ -223,11 +216,10 @@ func (br *Reader) ReadS16(e Endian) string {
 	}
 	data := br.ReadU16(e)
 
-	tmp := make([]byte, 2)
-	tmp[1] = byte(0x000000FF & data)
-	tmp[0] = byte(0x000000FF & (data >> 8))
+	br.sbuf64[1] = byte(data)
+	br.sbuf64[0] = byte(data >> 8)
 
-	return string(tmp)
+	return string(br.sbuf64[:2])
 }
 
 // ReadS24 ...
@@ -237,12 +229,11 @@ func (br *Reader) ReadS24(e Endian) string {
 	}
 	data := br.ReadU24(e)
 
-	tmp := make([]byte, 3)
-	tmp[2] = byte(0x000000FF & data)
-	tmp[1] = byte(0x000000FF & (data >> 8))
-	tmp[0] = byte(0x000000FF & (data >> 16))
+	br.sbuf64[2] = byte(data)
+	br.sbuf64[1] = byte(data >> 8)
+	br.sbuf64[0] = byte(data >> 16)
 
-	return string(tmp)
+	return string(br.sbuf64[:3])
 }
 
 // ReadS32 ...
@@ -252,13 +243,12 @@ func (br *Reader) ReadS32(e Endian) string {
 	}
 	data := br.ReadU32(e)
 
-	tmp := make([]byte, 4)
-	tmp[3] = byte(0x000000FF & data)
-	tmp[2] = byte(0x000000FF & (data >> 8))
-	tmp[1] = byte(0x000000FF & (data >> 16))
-	tmp[0] = byte(0x000000FF & (data >> 24))
+	br.sbuf64[3] = byte(data)
+	br.sbuf64[2] = byte(data >> 8)
+	br.sbuf64[1] = byte(data >> 16)
+	br.sbuf64[0] = byte(data >> 24)
 
-	return string(tmp)
+	return string(br.sbuf64[:4])
 }
 
 // ReadS64 ...
@@ -268,15 +258,14 @@ func (br *Reader) ReadS64(e Endian) string {
 	}
 	data := br.ReadU64(e)
 
-	tmp := make([]byte, 8)
-	tmp[7] = byte(0x000000FF & data)
-	tmp[6] = byte(0x000000FF & (data >> 8))
-	tmp[5] = byte(0x000000FF & (data >> 16))
-	tmp[4] = byte(0x000000FF & (data >> 24))
-	tmp[3] = byte(0x000000FF & (data >> 32))
-	tmp[2] = byte(0x000000FF & (data >> 40))
-	tmp[1] = byte(0x000000FF & (data >> 48))
-	tmp[0] = byte(0x000000FF & (data >> 56))
+	br.sbuf64[7] = byte(data)
+	br.sbuf64[6] = byte(data >> 8)
+	br.sbuf64[5] = byte(data >> 16)
+	br.sbuf64[4] = byte(data >> 24)
+	br.sbuf64[3] = byte(data >> 32)
+	br.sbuf64[2] = byte(data >> 40)
+	br.sbuf64[1] = byte(data >> 48)
+	br.sbuf64[0] = byte(data >> 56)
 
-	return string(tmp)
+	return string(br.sbuf64[:8])
 }
